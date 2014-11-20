@@ -37,8 +37,12 @@ module ActiveAdmin
       end
 
       def polymorphic_foreign_type?(method)
-        klass.reflections.values.select{ |r| r.macro == :belongs_to && r.options[:polymorphic] }
-          .map(&:foreign_type).include? method.to_s
+        if defined?(ActiveRecord)
+          klass.reflections.values.select{ |r| r.macro == :belongs_to && r.options[:polymorphic] }
+            .map(&:foreign_type).include? method.to_s
+        else
+          false
+        end
       end
 
       #
