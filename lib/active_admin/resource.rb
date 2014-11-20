@@ -102,7 +102,11 @@ module ActiveAdmin
     end
 
     def resource_quoted_column_name(column)
-      resource_class.connection.quote_column_name(column)
+      if resource_class.respond_to? :connection
+        resource_class.connection.quote_column_name(column)
+      elsif defined?(Mongoid)
+        column.to_s.inspect
+      end
     end
 
     # Clears all the member actions this resource knows about
