@@ -119,6 +119,8 @@ module ActiveAdmin
           item.type_for_attribute(data) == :boolean
         elsif item.respond_to? :column_for_attribute
           attr = item.column_for_attribute(data) and attr.type == :boolean
+        elsif item.class.respond_to? :fields # Mongoid 4.0
+          field = item.class.fields[data.to_s] and field && field.type == ::Mongoid::Boolean
         end
       end
 
