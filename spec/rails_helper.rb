@@ -108,6 +108,7 @@ end
 
 require 'rails'
 require 'active_record' unless ENV['MONGOID']
+require 'mongoid' if ENV['MONGOID']
 require 'active_admin'
 require 'devise'
 ActiveAdmin.application.load_paths = [ENV['RAILS_ROOT'] + "/app/admin"]
