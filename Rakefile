@@ -13,7 +13,15 @@ require File.expand_path('../spec/support/detect_rails_version', __FILE__)
 # Import all our rake tasks
 FileList['tasks/**/*.rake'].each { |task| import task }
 
-task default: :test
+FileList['spec/mongoid/tasks/**/*.rake'].each { |task| import task }
+
+task :default do
+  if ENV['MONGOID']
+    Rake::Task['mongoid:test'].invoke
+  else
+    Rake::Task['test'].invoke
+  end
+end
 
 begin
   require 'jasmine'

@@ -13,6 +13,8 @@ gem 'devise'
 gem 'draper'
 gem 'pundit'
 
+gem 'mongoid', '~> 4.0.0' if ENV['MONGOID']
+
 # Utility gems used in both development & test environments
 gem 'rake', require: false
 gem 'parallel_tests'
