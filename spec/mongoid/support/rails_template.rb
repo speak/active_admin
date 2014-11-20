@@ -19,7 +19,7 @@ if File.exists? 'config/secrets.yml'
   gsub_file 'config/secrets.yml', /\z/, "\ncucumber_with_reloading:\n  secret_key_base: #{'o' * 128}"
 end
 
-generate :model, "post title:string body:text published_at:time position:integer starred:boolean foo_id:integer"
+generate :model, "post title:string body:text position:integer starred:boolean foo_id:integer"
 inject_into_file 'app/models/post.rb', %q{
   include Mongoid::Timestamps
   belongs_to :category
@@ -28,10 +28,11 @@ inject_into_file 'app/models/post.rb', %q{
   accepts_nested_attributes_for :author
   accepts_nested_attributes_for :taggings
   attr_accessible :author, :position unless Rails::VERSION::MAJOR > 3 && !defined? ProtectedAttributes
+  field :published_at, type: DateTime
 }, after: 'include Mongoid::Document'
 copy_file spec_dir.join('support/templates/post_decorator.rb'), "app/models/post_decorator.rb"
 
-generate :model, "blog/post title:string body:text published_at:time position:integer starred:boolean foo_id:integer"
+generate :model, "blog/post title:string body:text position:integer starred:boolean foo_id:integer"
 inject_into_file 'app/models/blog/post.rb', %q{
   include Mongoid::Timestamps
   belongs_to :category
@@ -40,6 +41,7 @@ inject_into_file 'app/models/blog/post.rb', %q{
   accepts_nested_attributes_for :author
   accepts_nested_attributes_for :taggings
   attr_accessible :author, :position unless Rails::VERSION::MAJOR > 3 && !defined? ProtectedAttributes
+  field :published_at, type: DateTime
 }, after: 'include Mongoid::Document'
 
 generate :model, "user type:string first_name:string last_name:string username:string age:integer"
