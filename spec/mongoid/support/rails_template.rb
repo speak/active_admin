@@ -19,7 +19,7 @@ if File.exists? 'config/secrets.yml'
   gsub_file 'config/secrets.yml', /\z/, "\ncucumber_with_reloading:\n  secret_key_base: #{'o' * 128}"
 end
 
-generate :model, "post title:string body:text published_at:time position:integer starred:boolean"
+generate :model, "post title:string body:text published_at:time position:integer starred:boolean foo_id:integer"
 inject_into_file 'app/models/post.rb', %q{
   include Mongoid::Timestamps
   belongs_to :category
@@ -31,7 +31,7 @@ inject_into_file 'app/models/post.rb', %q{
 }, after: 'include Mongoid::Document'
 copy_file spec_dir.join('support/templates/post_decorator.rb'), "app/models/post_decorator.rb"
 
-generate :model, "blog/post title:string body:text published_at:time position:integer starred:boolean"
+generate :model, "blog/post title:string body:text published_at:time position:integer starred:boolean foo_id:integer"
 inject_into_file 'app/models/blog/post.rb', %q{
   include Mongoid::Timestamps
   belongs_to :category
