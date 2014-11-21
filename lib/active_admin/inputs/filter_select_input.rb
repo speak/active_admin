@@ -44,7 +44,11 @@ module ActiveAdmin
       end
 
       def pluck_column
-        klass.reorder("#{method} asc").uniq.pluck method
+        if defined?(Mongoid)
+          klass.reorder("#{method} asc").only method
+        else
+          klass.reorder("#{method} asc").uniq.pluck method
+        end
       end
 
     end
