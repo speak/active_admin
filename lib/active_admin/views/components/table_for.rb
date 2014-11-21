@@ -179,7 +179,11 @@ module ActiveAdmin
           if @options.has_key?(:sortable)
             !!@options[:sortable]
           elsif @resource_class
-            @resource_class.column_names.include?(sort_column_name)
+            if defined?(ActiveRecord)
+              @resource_class.column_names.include?(sort_column_name)
+            else
+              !!@resource_class.fields[sort_column_name]
+            end
           else
             @title.present?
           end
