@@ -8,7 +8,11 @@ module ActiveAdmin
           c = c.except :select, :order
           c.group_values.present? ? c.count.count : c.count
         elsif defined?(Mongoid)
-          c.count(true)
+          if Kaminari::PaginatableArray === c
+            c.count
+          else
+            c.count(true)
+          end
         end
       end
 
