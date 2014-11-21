@@ -104,8 +104,12 @@ module ActiveAdmin
       end
 
       def default_mongoid_association_filters
-        belongs_to = resource_class.relations.select { |name, r| r[:relation] == ::Mongoid::Relations::Referenced::In }
-        belongs_to.map { |name, r| r[:name] }
+        if resource_class.respond_to?(:relations)
+          belongs_to = resource_class.relations.select { |name, r| r[:relation] == ::Mongoid::Relations::Referenced::In }
+          belongs_to.map { |name, r| r[:name] }
+        else
+          []
+        end
       end
 
       # Returns a default set of filters for the associations
