@@ -12,21 +12,4 @@ namespace :mongoid do
     end
   end
 
-  desc "Run the full suite using 1 core"
-  task test: ['mongoid:spec:unit']
-
-  namespace :spec do
-
-    desc "Run the unit specs"
-    RSpec::Core::RakeTask.new(:unit) do |t|
-      t.pattern = "spec/mongoid/unit/**/*_spec.rb"
-    end
-
-    desc "Run the integration specs"
-    RSpec::Core::RakeTask.new(:integration) do |t|
-      t.pattern = "spec/mongoid/integration/**/*_spec.rb"
-    end
-
-  end
-
 end

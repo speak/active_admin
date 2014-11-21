@@ -15,13 +15,7 @@ FileList['tasks/**/*.rake'].each { |task| import task }
 
 FileList['spec/mongoid/tasks/**/*.rake'].each { |task| import task }
 
-task :default do
-  if ENV['MONGOID']
-    Rake::Task['mongoid:test'].invoke
-  else
-    Rake::Task['test'].invoke
-  end
-end
+task default: :test
 
 begin
   require 'jasmine'
