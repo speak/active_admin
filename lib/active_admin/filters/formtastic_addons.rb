@@ -25,7 +25,7 @@ module ActiveAdmin
       end
 
       def column_for(method)
-        if defined?(Mongoid) && respond_to?(:fields)
+        if defined?(Mongoid) && klass.respond_to?(:fields)
           method.to_s == 'id' ? klass.fields['_id'] : klass.fields[method.to_s]
         elsif klass.respond_to? :columns_hash
           klass.columns_hash[method.to_s]

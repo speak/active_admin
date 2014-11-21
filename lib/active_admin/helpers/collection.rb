@@ -8,7 +8,7 @@ module ActiveAdmin
           c = c.except :select, :order
           c.group_values.present? ? c.count.count : c.count
         elsif defined?(Mongoid)
-          c.count
+          c.count(true)
         end
       end
 

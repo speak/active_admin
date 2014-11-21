@@ -20,7 +20,7 @@ module ActiveAdmin
         end
       elsif defined?(Mongoid)
         def filter(method, options = {})
-          if method.present? && options[:as] ||= default_input_type(method)
+          if method.present? && options[:as] ||= default_mongoid_input_type(method)
             if reflection_for(method)
               # ransack will add suffix '_id'
               template.concat input(method.to_s.chomp('_id'), options)
@@ -59,8 +59,6 @@ module ActiveAdmin
       # Returns the default filter type for a given attribute. If you want
       # to use a custom search method, you have to specify the type yourself.
       def default_input_type(method, options = {})
-        return default_mongoid_input_type(method, options) if defined?(Mongoid)
-
         if method =~ /_(eq|equals|cont|contains|start|starts_with|end|ends_with)\z/
           :string
         elsif klass._ransackers.key?(method.to_s)
