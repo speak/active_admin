@@ -11,6 +11,15 @@ module ActiveAdmin
         @object.public_send("#{searchable_method_name}_in") || []
       end
 
+      if defined?(Mongoid)
+        # ransack stores _id as string, because it comes from browser
+        # formtastic stores it as BSON::ObjectId
+        def checked?(value)
+          value = value.to_s if BSON::ObjectId === value
+          selected_values.include?(value.to_s)
+        end
+      end
+
       def searchable_method_name
         if searchable_has_many_through?
           "#{reflection.through_reflection.name}_#{reflection.foreign_key}"

@@ -22,7 +22,7 @@ module ActiveAdmin
         def filter(method, options = {})
           if method.present? && options[:as] ||= default_mongoid_input_type(method)
             if reflection_for(method)
-              # ransack will add suffix '_id'
+              # ransack/formtastic adds suffix '_id'
               template.concat input(method.to_s.chomp('_id'), options)
             else
               template.concat input(method, options)
