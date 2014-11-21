@@ -102,6 +102,14 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 generate 'active_admin:install'
 
+# temprorary fix for devise issue: https://github.com/plataformatec/devise/issues/2949
+inject_into_file 'app/models/admin_user.rb', %q{
+  def self.serialize_from_session(key, salt)
+    record = to_adapter.get(key[0]["$oid"])
+    record if record && record.authenticatable_salt == salt
+  end
+}, after: '# field :locked_at,       type: Time'
+
 inject_into_file "config/routes.rb", "\n  root to: redirect('/admin')", after: /.*::Application.routes.draw do/
 remove_file "public/index.html" if File.exists? "public/index.html"
 
