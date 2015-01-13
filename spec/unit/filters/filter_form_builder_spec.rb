@@ -135,7 +135,7 @@ describe ActiveAdmin::Filters::ViewHelper do
 
   describe "string attribute, as a select" do
     let(:body) { filter :title, as: :select }
-    let(:builder) { ActiveAdmin::Inputs::FilterSelectInput }
+    let(:builder) { ActiveAdmin::Inputs::Filters::SelectInput }
 
     context "when loading collection from DB" do
       it "should use pluck for efficiency" do
@@ -306,8 +306,8 @@ describe ActiveAdmin::Filters::ViewHelper do
       context "when using a custom foreign key" do
         let(:scope) { Post.search }
         let(:body)  { Capybara.string(filter :category) }
-        it "should should ignore that foreign key and let Ransack handle it" do
-          expect(Post.reflections[:category].foreign_key).to eq :custom_category_id
+        it "should ignore that foreign key and let Ransack handle it" do
+          expect(Post.reflect_on_association(:category).foreign_key).to eq :custom_category_id
           expect(body).to have_selector("select[name='q[category_id_eq]']")
         end
       end
@@ -412,6 +412,13 @@ describe ActiveAdmin::Filters::ViewHelper do
     it "should work as string" do
       body = Capybara.string(filter :custom_searcher, as: :string)
       expect(body).to have_selector("input[name='q[custom_searcher]']")
+    end
+  end
+
+  describe "does not support some filter inputs" do
+    it "should fallback to use formtastic inputs" do
+      body = Capybara.string(filter :custom_searcher, as: :text)
+      expect(body).to have_selector("textarea[name='q[custom_searcher]']")
     end
   end
 

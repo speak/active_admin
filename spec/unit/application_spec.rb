@@ -64,7 +64,7 @@ describe ActiveAdmin::Application do
 
   if defined?(ActiveRecord)
     it "should allow comments by default" do
-      expect(application.allow_comments).to eq true
+      expect(application.comments).to eq true
     end
   end
 
