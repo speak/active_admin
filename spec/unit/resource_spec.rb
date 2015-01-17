@@ -278,6 +278,8 @@ module ActiveAdmin
         end
 
         it 'can find the post by controller finder' do
+          # If document not found, by default Mongoid's `find_by` raises an error,
+          # ActiveRecord's `find_by` always returns nil, but `find_by!` raises an error.
           if defined?(ActiveRecord)
             allow(Post).to receive(:find_by_title!).with('title-name').and_return(post)
           end
