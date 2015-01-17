@@ -218,8 +218,10 @@ describe ActiveAdmin::Views::AttributesTable do
             end
 
             context "with defined attribute name translation" do
+              let(:i18n_namespace) { defined?(ActiveRecord) ? :activerecord : :mongoid }
+
               it "should have the translated attribute name in the title" do
-                with_translation activerecord: {attributes: {post: {title: 'Translated Title', id: 'Translated Id'}}} do
+                with_translation i18n_namespace => {attributes: {post: {title: 'Translated Title', id: 'Translated Id'}}} do
                   expect(current_row.find_by_tag("th").first.content).to eq "Translated #{title}"
                 end
               end

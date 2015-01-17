@@ -86,11 +86,16 @@ describe ActiveAdmin::FormBuilder do
       end
     end
 
-   it "should generate a text input" do
+    it "should generate a text input" do
       expect(body).to have_selector("input[type=text][name='post[title]']")
     end
     it "should generate a textarea" do
-      expect(body).to have_selector("textarea[name='post[body]']")
+      if defined?(ActiveRecord)
+        expect(body).to have_selector("textarea[name='post[body]']")
+      end
+      if defined?(Mongoid)
+        expect(body).to have_selector("input[type=text][name='post[body]']")
+      end
     end
     it "should only generate the form once" do
       expect(body).to have_selector("form", count: 1)
@@ -219,7 +224,12 @@ describe ActiveAdmin::FormBuilder do
       expect(body).to have_selector("input[type=text][name='post[title]']")
     end
     it "should have a body textarea" do
-      expect(body).to have_selector("textarea[name='post[body]']")
+      if defined?(ActiveRecord)
+        expect(body).to have_selector("textarea[name='post[body]']")
+      end
+      if defined?(Mongoid)
+        expect(body).to have_selector("input[type=text][name='post[body]']")
+      end
     end
   end
 
@@ -245,6 +255,7 @@ describe ActiveAdmin::FormBuilder do
 
   context "with collection inputs" do
     before do
+      User.destroy_all
       User.create first_name: "John", last_name: "Doe"
       User.create first_name: "Jane", last_name: "Doe"
     end
@@ -342,13 +353,16 @@ describe ActiveAdmin::FormBuilder do
         end
         f.inputs do
           f.input :author
-          f.input :published_at
+          f.input :published_at if defined?(ActiveRecord)
+          # formtastic doesn't generate datetime_select for DateTime field
+          f.input :published_at, as: :datetime_select if defined?(Mongoid)
         end
       end
     end
     it "should render four inputs" do
       expect(body).to have_selector("input[name='post[title]']", count: 1)
-      expect(body).to have_selector("textarea[name='post[body]']", count: 1)
+      expect(body).to have_selector("textarea[name='post[body]']", count: 1) if defined?(ActiveRecord)
+      expect(body).to have_selector("input[type=text][name='post[body]']", count: 1) if defined?(Mongoid)
       expect(body).to have_selector("select[name='post[author_id]']", count: 1)
       expect(body).to have_selector("select[name='post[published_at(1i)]']", count: 1)
       expect(body).to have_selector("select[name='post[published_at(2i)]']", count: 1)
@@ -370,10 +384,11 @@ describe ActiveAdmin::FormBuilder do
         end
       end
 
+      let(:i18n_namespace) { defined?(ActiveRecord) ? :activerecord : :mongoid }
       let(:valid_html_id) { /^[A-Za-z]+[\w\-\:\.]*$/ }
 
       it "should translate the association name in header" do
-        with_translation activerecord: {models: {post: {one: 'Blog Post', other: 'Blog Posts'}}} do
+        with_translation i18n_namespace => {models: {post: {one: 'Blog Post', other: 'Blog Posts'}}} do
           expect(body).to have_selector("h3", text: "Blog Posts")
         end
       end
@@ -383,13 +398,13 @@ describe ActiveAdmin::FormBuilder do
       end
 
       it "should translate the association name in has many new button" do
-        with_translation activerecord: {models: {post: {one: 'Blog Post', other: 'Blog Posts'}}} do
+        with_translation i18n_namespace => {models: {post: {one: 'Blog Post', other: 'Blog Posts'}}} do
           expect(body).to have_selector("a", text: "Add New Blog Post")
         end
       end
 
       it "should translate the attribute name" do
-        with_translation activerecord: {attributes: {post: {title: 'A very nice title'}}} do
+        with_translation i18n_namespace => {attributes: {post: {title: 'A very nice title'}}} do
           expect(body).to have_selector("label", text: "A very nice title")
         end
       end
@@ -400,7 +415,8 @@ describe ActiveAdmin::FormBuilder do
 
       it "should render the nested form" do
         expect(body).to have_selector("input[name='category[posts_attributes][0][title]']")
-        expect(body).to have_selector("textarea[name='category[posts_attributes][0][body]']")
+        expect(body).to have_selector("textarea[name='category[posts_attributes][0][body]']") if defined?(ActiveRecord)
+        expect(body).to have_selector("input[name='category[posts_attributes][0][body]']") if defined?(Mongoid)
       end
 
       it "should add a link to remove new nested records" do
