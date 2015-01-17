@@ -15,7 +15,7 @@ module ActiveAdmin
     end
 
     module ::Mock class Resource < ActiveRecord::Base; end; end if defined?(ActiveRecord)
-    module ::Mock class Resource < Mongoid::Document; end; end if defined?(Mongoid)
+    module ::Mock class Resource; include Mongoid::Document; end; end if defined?(Mongoid)
     module NoActiveModel class Resource; end; end
 
     describe "singular resource name" do
