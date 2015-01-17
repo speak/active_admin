@@ -23,10 +23,10 @@ describe ActiveAdmin::OrderClause do
     end
 
     specify '#to_sql prepends table name' do
-      if defined?(ActiveRecord)
+      if defined?(::ActiveRecord)
         expect(subject.to_sql(config)).to eq '"posts"."id" asc'
       end
-      if defined?(Mongoid)
+      if defined?(::Mongoid)
         expect(subject.to_sql(config)).to eq '"id" asc'
       end
     end

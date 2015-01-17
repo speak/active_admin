@@ -8,16 +8,21 @@ ENV["RAILS_ENV"] ||= "cucumber"
 
 require File.expand_path('../../../spec/spec_helper', __FILE__)
 
-ENV['RAILS_ROOT'] = File.expand_path("../../../spec/rails/rails-#{ENV["RAILS"]}", __FILE__)
-
-# Create the test app if it doesn't exists
-unless File.exists?(ENV['RAILS_ROOT'])
-  system 'rake setup'
-end
-
 require 'rails'
 require 'active_record' unless ENV['MONGOID']
 require 'mongoid' if ENV['MONGOID']
+
+orm_name = defined?(ActiveRecord) ? 'activerecord' : 'mongoid'
+orm_version = defined?(ActiveRecord) ? ActiveRecord.version : Mongoid::VERSION
+ENV['RAILS_ROOT'] = File.expand_path("../../../spec/rails/rails-#{Rails::VERSION::STRING}-#{orm_name}-#{orm_version}", __FILE__)
+
+# Create the test app if it doesn't exists
+unless File.exists?(ENV['RAILS_ROOT'])
+  require 'rake'
+  load File.expand_path( "../../tasks/test.rake", __FILE__)
+  Rake::Task["setup"].invoke
+end
+
 require 'active_admin'
 require 'devise'
 ActiveAdmin.application.load_paths = [ENV['RAILS_ROOT'] + "/app/admin"]
@@ -85,7 +90,7 @@ ActionController::Base.allow_rescue = false
 Cucumber::Rails::World.use_transactional_fixtures = false unless ENV['MONGOID']
 # How to clean your database when transactions are turned off. See
 # http://github.com/bmabey/database_cleaner for more info.
-if defined?(ActiveRecord::Base)
+if defined?(::ActiveRecord::Base)
   begin
     require 'database_cleaner'
     require 'database_cleaner/cucumber'
@@ -94,8 +99,8 @@ if defined?(ActiveRecord::Base)
   end
 end
 
-if defined?(Mongoid)
-  Mongoid.default_session.drop
+if defined?(::Mongoid)
+  ::Mongoid.default_session.drop
 end
 
 # Warden helpers to speed up login

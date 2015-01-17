@@ -1,5 +1,5 @@
 require 'rails_helper'
-defined?(ActiveRecord) and
+defined?(::ActiveRecord) and
 describe "Comments" do
   let(:application) { ActiveAdmin::Application.new }
 
