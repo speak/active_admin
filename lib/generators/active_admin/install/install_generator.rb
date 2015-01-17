@@ -2,7 +2,7 @@ require 'rails/generators/active_record'
 
 module ActiveAdmin
   module Generators
-    class InstallGenerator < ActiveRecord::Generators::Base
+    class InstallGenerator < ::ActiveRecord::Generators::Base
       desc "Installs Active Admin and generates the necessary migrations"
       argument :name, type: :string, default: "AdminUser"
 

@@ -9,12 +9,6 @@ module ActiveAdmin
       # TODO: remove input class finders after formtastic 4 (where it will be default)
       self.input_class_finder = ::Formtastic::InputClassFinder
 
-      def filter(method, options = {})
-        if method.present? && options[:as] ||= default_input_type(method)
-          template.concat input(method, options)
-        end
-      end
-
       protected
 
       # Returns the default filter type for a given attribute. If you want

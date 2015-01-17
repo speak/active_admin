@@ -114,14 +114,6 @@ module ActiveAdmin
         value
       end
 
-      def is_boolean?(data, item)
-        if item.respond_to? :has_attribute?
-          item.has_attribute?(data) &&
-            item.column_for_attribute(data) &&
-            item.column_for_attribute(data).type == :boolean
-        end
-      end
-
       # Returns an array for the current sort order
       #   current_sort[0] #=> sort_key
       #   current_sort[1] #=> asc | desc
@@ -171,16 +163,6 @@ module ActiveAdmin
           @data = args[1] || args[0]
           @data = block if block
           @resource_class = args[2]
-        end
-
-        def sortable?
-          if @options.has_key?(:sortable)
-            !!@options[:sortable]
-          elsif @resource_class
-            @resource_class.column_names.include?(sort_column_name)
-          else
-            @title.present?
-          end
         end
 
         #

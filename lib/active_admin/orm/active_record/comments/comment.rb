@@ -1,5 +1,5 @@
 module ActiveAdmin
-  class Comment < ActiveRecord::Base
+  class Comment < ::ActiveRecord::Base
 
     self.table_name = 'active_admin_comments'
 
