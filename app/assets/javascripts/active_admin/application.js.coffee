@@ -1,5 +1,5 @@
 # Initializers
-$ ->
+$(document).on 'ready page:load', ->
   # jQuery datepickers (also evaluates dynamically added HTML)
   $(document).on 'focus', '.datepicker:not(.hasDatepicker)', ->
     defaults = dateFormat: 'yy-mm-dd'
@@ -24,8 +24,8 @@ $ ->
   $('.filter_form_field.select_and_search select').change ->
     $(@).siblings('input').prop name: "q[#{@value}]"
 
-  # Tab navigation in the show page
-  $('#main_content .tabs').tabs()
+  # Tab navigation
+  $('#active_admin_content .tabs').tabs()
 
   # In order for index scopes to overflow properly onto the next line, we have
   # to manually set its width based on the width of the batch action button.
