@@ -29,10 +29,10 @@ describe ActiveAdmin::ResourceController::DataAccess do
 
       it "reorders chain" do
         chain = double "ChainObj"
-        if defined?(ActiveRecord)
+        if defined?(::ActiveRecord)
           expect(chain).to receive(:reorder).with('"posts"."id" asc').once.and_return(Post.search)
         end
-        if defined?(Mongoid)
+        if defined?(::Mongoid)
           expect(chain).to receive(:reorder).with('"id" asc').once.and_return(Post.search)
         end
         controller.send :apply_sorting, chain

@@ -165,10 +165,10 @@ describe ActiveAdmin::Views::PaginatedCollection do
       end
 
       it "should display proper message (including number and not hash)" do
-        if defined?(ActiveRecord)
+        if defined?(::ActiveRecord)
           expect(pagination.find_by_class('pagination_information').first.content).to eq "Displaying <b>all 2</b> posts"
         end
-        if defined?(Mongoid)
+        if defined?(::Mongoid)
           skip "not implemented yet."
         end
       end
@@ -181,11 +181,11 @@ describe ActiveAdmin::Views::PaginatedCollection do
       end
 
       it "should display proper message (including number and not hash)" do
-        if defined?(ActiveRecord)
+        if defined?(::ActiveRecord)
           expect(pagination.find_by_class('pagination_information').first.content.gsub('&nbsp;',' ')).
             to eq "Displaying posts <b>1 - 2</b> of <b>3</b> in total"
         end
-        if defined?(Mongoid)
+        if defined?(::Mongoid)
           skip "not implemented yet."
         end
       end

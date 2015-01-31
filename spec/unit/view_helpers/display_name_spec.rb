@@ -44,7 +44,7 @@ describe "display_name" do
 
   context "when no display name method is defined" do
     context "on a Rails model" do
-      let(:i18n_namespace) { defined?(ActiveRecord) ? :activerecord : :mongoid }
+      let(:i18n_namespace) { defined?(::ActiveRecord) ? :activerecord : :mongoid }
 
       it "should show the model name" do
         class ThisModel
