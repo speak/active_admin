@@ -2,16 +2,16 @@
 
 ActiveAdmin::DatabaseHitDuringLoad.database_error_classes << ::ActiveRecord::StatementInvalid
 
-require 'active_admin/orm/active_record/filters/forms'
-require 'active_admin/orm/active_record/filters/formtastic_addons'
-require 'active_admin/orm/active_record/filters/resource_extension'
-require 'active_admin/orm/active_record/helpers/collection'
-require 'active_admin/orm/active_record/view_helpers/display_helper'
-require 'active_admin/orm/active_record/views/components/table_for'
-require 'active_admin/orm/active_record/views/index_as_table'
-require 'active_admin/orm/active_record/resource'
-require 'active_admin/orm/active_record/resource_collection'
-require 'active_admin/orm/active_record/comments'
+require 'active_admin/adapters/active_record/filters/forms'
+require 'active_admin/adapters/active_record/filters/formtastic_addons'
+require 'active_admin/adapters/active_record/filters/resource_extension'
+require 'active_admin/adapters/active_record/helpers/collection'
+require 'active_admin/adapters/active_record/view_helpers/display_helper'
+require 'active_admin/adapters/active_record/views/components/table_for'
+require 'active_admin/adapters/active_record/views/index_as_table'
+require 'active_admin/adapters/active_record/resource'
+require 'active_admin/adapters/active_record/resource_collection'
+require 'active_admin/adapters/active_record/comments'
 
 
 ActiveAdmin::Filters::FormBuilder.send :include, ActiveAdmin::ActiveRecord::Filters::FormBuilder

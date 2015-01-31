@@ -19,7 +19,7 @@ module ActiveAdmin
         opening_tag << children.to_s << closing_tag
       end
     end
-    
+
     class ActiveAdminForm < FormtasticProxy
       builder_method :active_admin_form_for
 
