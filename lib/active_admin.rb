@@ -115,6 +115,10 @@ module ActiveAdmin
       ActiveAdmin::Event.subscribe ActiveAdmin::Application::AfterLoadEvent, &block
     end
 
+    def object_mapper_for(thing)
+      ActiveAdmin::ObjectMapper::ActiveRecord
+    end
+
   end
 
 end
