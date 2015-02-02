@@ -4,16 +4,16 @@ ActiveAdmin::DatabaseHitDuringLoad.database_error_classes << ActiveRecord::State
 
 require 'active_admin/object_mapper/active_record/comments'
 
-require 'active_admin/object_mapper/active_record/adapters/form_builder_adapter'
-
 module ActiveAdmin
   module ObjectMapper
     module ActiveRecord
 
-      ADAPTERS = [ :form_builder ]
+      ADAPTERS = [ 'form_builder_adapter', 'formtastic_addons_adapter' ]
 
       ADAPTERS.each do |adapter|
-        klass = "ActiveAdmin::ObjectMapper::ActiveRecord::#{adapter.to_s.classify}Adapter".constantize
+        require "active_admin/object_mapper/active_record/adapters/#{adapter}"
+
+        klass = %[ActiveAdmin::ObjectMapper::ActiveRecord::#{adapter.classify}].constantize
         define_singleton_method adapter do |base|
           klass.new(base)
         end

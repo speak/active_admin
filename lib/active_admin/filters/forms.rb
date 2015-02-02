@@ -9,12 +9,12 @@ module ActiveAdmin
       # TODO: remove input class finders after formtastic 4 (where it will be default)
       self.input_class_finder = ::Formtastic::InputClassFinder
 
-      delegate :filter, to: :object_mapper
+      delegate :filter, to: :form_buidler_adapter
 
       protected
 
-      def object_mapper
-        @object_mapper ||= ActiveAdmin.object_mapper_for(klass).form_builder(self)
+      def form_buidler_adapter
+        @form_buidler_adapter ||= ActiveAdmin.object_mapper_for(klass).form_builder_adapter(self)
       end
 
     end
