@@ -4,20 +4,16 @@ ActiveAdmin::DatabaseHitDuringLoad.database_error_classes << ActiveRecord::State
 
 require 'active_admin/object_mapper/active_record/comments'
 
+require 'active_admin/object_mapper/active_record/adapters/form_builder_adapter'
+require 'active_admin/object_mapper/active_record/adapters/formtastic_addons_adapter'
+require 'active_admin/object_mapper/active_record/adapters/resource_extension_adapter'
+
 module ActiveAdmin
   module ObjectMapper
     module ActiveRecord
 
-      ADAPTERS = [ 'form_builder_adapter', 'formtastic_addons_adapter',
-        'resource_extension_adapter' ]
-
-      ADAPTERS.each do |adapter|
-        require "active_admin/object_mapper/active_record/adapters/#{adapter}"
-
-        klass = %[ActiveAdmin::ObjectMapper::ActiveRecord::#{adapter.classify}].constantize
-        define_singleton_method adapter do |base|
-          klass.new(base)
-        end
+      def self.adapter(name, base)
+        AbstractAdapter.for(:active_record, name, base)
       end
 
     end
