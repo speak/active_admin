@@ -14,7 +14,8 @@ module ActiveAdmin
       protected
 
       def form_builder_adapter
-        @form_builder_adapter ||= ActiveAdmin.object_mapper_for(klass).form_builder_adapter(self)
+        @form_builder_adapter ||=
+          ActiveAdmin.object_mapper_for(klass).adapter(:form_builder, self)
       end
 
     end

@@ -125,7 +125,8 @@ module ActiveAdmin
       end
 
       def resource_extension_adapter
-        @resource_extension_adapter ||= ActiveAdmin.object_mapper_for(resource_class).resource_extension_adapter(self)
+        @resource_extension_adapter ||=
+          ActiveAdmin.object_mapper_for(resource_class).adapter(:resource_extension, self)
       end
 
     end

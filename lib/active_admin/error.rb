@@ -56,4 +56,7 @@ module ActiveAdmin
   class NoMenuError < KeyError
   end
 
+  class NoAdapterFound < Error
+  end
+
 end

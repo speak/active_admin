@@ -131,6 +131,8 @@ require 'active_admin/error'
 require 'active_admin/batch_actions'
 require 'active_admin/filters'
 
+require 'active_admin/object_mapper/abstract_adapter'
+
 # Require ORM-specific plugins
 require 'active_admin/object_mapper/active_record' if defined? ::ActiveRecord
 require 'active_admin/object_mapper/mongoid'       if defined? ::Mongoid

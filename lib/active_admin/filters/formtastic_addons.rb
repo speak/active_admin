@@ -70,7 +70,8 @@ module ActiveAdmin
       protected
 
       def formtastic_addons_adapter
-        @formtastic_addons_adapter ||= ActiveAdmin.object_mapper_for(klass).formtastic_addons_adapter(self)
+        @formtastic_addons_adapter ||=
+          ActiveAdmin.object_mapper_for(klass).adapter(:formtastic_addons, self)
       end
 
     end
