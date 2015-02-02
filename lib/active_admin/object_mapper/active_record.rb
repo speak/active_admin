@@ -8,7 +8,8 @@ module ActiveAdmin
   module ObjectMapper
     module ActiveRecord
 
-      ADAPTERS = [ 'form_builder_adapter', 'formtastic_addons_adapter' ]
+      ADAPTERS = [ 'form_builder_adapter', 'formtastic_addons_adapter',
+        'resource_extension_adapter' ]
 
       ADAPTERS.each do |adapter|
         require "active_admin/object_mapper/active_record/adapters/#{adapter}"
