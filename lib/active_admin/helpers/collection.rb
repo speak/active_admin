@@ -9,9 +9,11 @@ module ActiveAdmin
           c.group_values.present? ? c.count.count : c.count
         elsif defined?(Mongoid)
           if Kaminari::PaginatableArray === c
-            c.count
+            c.size
           else
-            c.count(true)
+            # https://github.com/mongoid/mongoid/blob/master/lib/mongoid/contextual/mongo.rb#L54
+            # c.count(true)
+            c.size
           end
         end
       end
